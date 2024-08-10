@@ -35,3 +35,4 @@ function solution(inputArray) {
   }
   return maxProduct
 }
+//Version 1.
