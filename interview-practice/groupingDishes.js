@@ -46,41 +46,46 @@
 // The array containing the grouped dishes.
 
 function solution(dishes) {
-  //map para mantener un rastro de cada platillo y cada ingrediente
-  const ingredientMap = new Map()
-  
-  //iteramos sobre cada platillo en el arreglo
-  dishes.forEach((dish) => {
-      //desestructuramos, el primer elemento es el platillo y lo restante los ingredientes
-      const [dishName,...ingredients] = dish
-      
-      //iteramos sobre los ingredientes
-      ingredients.forEach((ingredient) => {
-          //si el ingrediente no está en el map, agregarlo con un array vacio
-          if(!ingredientMap.has(ingredient)){
-              ingredientMap.set(ingredient, [])
-          }
-          
-          //añadimos un nombre del platillo a la lista de platillos que contienen este ingrediente
-          ingredientMap.get(ingredient).push(dishName)
-      })
-  })
-  //almacenamos el resultado
-  const result = []
-  
- //iteramos sobre el map para filtar y ordenar los ingredientes
-  ingredientMap.forEach((dishList, ingredient) => {
-      //solo considerar ingredientes que aparecen al menos dos veces en un platillo
-      if(dishList.length > 1 ){
-          //ordenar la lista de platillos que contienen estos ingredientes
-          dishList.sort()
-          //añadimos un nuevo array al resultado, donde el primer elemento es el ingrediente seguido de la lista de platillos ordenada
-          result.push([ingredient, ...dishList])
-          
-      }
-  })
-  //orden lexicografico
-  result.sort((a,b) => a[0].localeCompare(b[0]))
-  
-  return result
-}
+    //map para mantener un rastro de cada platillo y cada ingrediente
+    const ingredientMap = new Map()
+    
+    //iteramos sobre cada platillo en el arreglo
+    dishes.forEach((dish) => {
+        //desestructuramos, el primer elemento es el platillo y lo restante los ingredientes
+        const [dishName,...ingredients] = dish
+        
+        //iteramos sobre los ingredientes
+        ingredients.forEach((ingredient) => {
+            //si el ingrediente no está en el map, agregarlo con un array vacio
+            if(!ingredientMap.has(ingredient)){
+                ingredientMap.set(ingredient, [])
+            }
+            
+            //añadimos un nombre del platillo a la lista de platillos que contienen este ingrediente
+            ingredientMap.get(ingredient).push(dishName)
+        })
+    })
+    //almacenamos el resultado
+    const result = []
+    
+   //iteramos sobre el map para filtar y ordenar los ingredientes
+    ingredientMap.forEach((dishList, ingredient) => {
+        //solo considerar ingredientes que aparecen al menos dos veces en un platillo
+        if(dishList.length > 1 ){
+            //ordenar la lista de platillos que contienen estos ingredientes
+            dishList.sort()
+            dishList.unshift(ingredient)
+            //añadimos un nuevo array al resultado, donde el primer elemento es el ingrediente seguido de la lista de platillos ordenada
+            result.push(dishList)
+            
+        }
+    })
+    //orden lexicografico
+    result.sort((a, b) => {
+      if(a[0] < b[0]) return -1;
+      if(a[0] > b[0]) return 1;
+      return 0;
+  });
+    
+    return result
+  }
